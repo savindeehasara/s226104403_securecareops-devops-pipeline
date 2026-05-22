@@ -34,17 +34,16 @@ pipeline {
         stage('Code Quality') {
             steps {
                 echo 'Starting Code Quality Stage...'
-                echo 'SonarQube/SonarCloud analysis is configured through sonar-project.properties.'
-                echo 'This stage will run sonar-scanner after SonarQube credentials are configured in Jenkins.'
-                
+
                 script {
-                    try {
-                        bat 'sonar-scanner'
-                    } catch (Exception e) {
-                        echo 'Sonar scanner did not run successfully. This may happen if SonarQube server/token is not configured yet.'
-                        echo 'Pipeline will continue for local demonstration, but this should be configured for final submission.'
+                    def scannerHome = tool 'SonarScanner'
+
+                    withSonarQubeEnv('SonarCloud') {
+                        bat "\"${scannerHome}\\bin\\sonar-scanner.bat\""
                     }
                 }
+
+                echo 'SonarQube/SonarCloud code quality analysis completed.'
             }
         }
 
