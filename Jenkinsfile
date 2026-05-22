@@ -83,8 +83,7 @@ pipeline {
                 timeout(time: 60, unit: 'SECONDS') {
                     bat 'powershell -Command "Start-Sleep -Seconds 10"'
                     bat 'powershell -Command "$response = Invoke-WebRequest -Uri http://localhost:3000/health -UseBasicParsing; if ($response.StatusCode -ne 200) { exit 1 }"'
-                    bat 'powershell -Command "$metrics = Invoke-WebRequest -Uri http://localhost:3000/metrics -UseBasicParsing; if ($metrics.Content -notmatch \"securecareops_http_requests_total\") { exit 1 }"'
-                }
+                    bat 'powershell -Command "$metrics = Invoke-WebRequest -Uri http://localhost:3000/metrics -UseBasicParsing; if ($metrics.Content.Contains(\'securecareops_http_requests_total\') -eq $false) { exit 1 }"'                }
                 echo 'Monitoring endpoints verified successfully.'
             }
         }
