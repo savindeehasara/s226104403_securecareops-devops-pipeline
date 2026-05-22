@@ -1,0 +1,45 @@
+{
+  "name": "securecareops-devops-pipeline",
+  "version": "1.0.0",
+  "description": "SecureCareOps is a Node.js DevSecOps-ready healthcare appointment and risk tracking API designed for a Jenkins CI/CD pipeline.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest --coverage",
+    "build": "node -c src/app.js && node -c src/server.js && node -c src/dataStore.js && node -c src/riskService.js",
+    "audit": "npm audit --audit-level=moderate"
+  },
+  "keywords": [
+    "devops",
+    "jenkins",
+    "nodejs",
+    "express",
+    "healthcare",
+    "security",
+    "monitoring",
+    "devsecops"
+  ],
+  "author": "Aman Shaluka",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.3",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "prom-client": "^15.1.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^6.3.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/server.js"
+    ],
+    "coverageDirectory": "coverage"
+  }
+}

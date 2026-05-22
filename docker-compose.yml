@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  securecareops-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: securecareops-api:1.0.0
+    container_name: securecareops-api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/health').then(res => process.exit(res.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: securecareops-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - securecareops-api
+    restart: unless-stopped
