@@ -5,12 +5,12 @@
  * It keeps the project lightweight and easy to test in a Jenkins CI/CD pipeline.
  */
 
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 
 // Initial sample appointments are included so the API has useful data when it starts.
 let appointments = [
   {
-    id: uuidv4(),
+    id: randomUUID(),
     patientName: 'Nimal Perera',
     contactNumber: '0400000001',
     doctorName: 'Dr Smith',
@@ -20,7 +20,7 @@ let appointments = [
     status: 'scheduled'
   },
   {
-    id: uuidv4(),
+    id: randomUUID(),
     patientName: 'Sarah Williams',
     contactNumber: '0400000002',
     doctorName: 'Dr Chen',
@@ -58,7 +58,7 @@ function getAppointmentById(id) {
  */
 function createAppointment(appointmentData) {
   const newAppointment = {
-    id: uuidv4(),
+    id: randomUUID(),
     patientName: appointmentData.patientName,
     contactNumber: appointmentData.contactNumber,
     doctorName: appointmentData.doctorName,
