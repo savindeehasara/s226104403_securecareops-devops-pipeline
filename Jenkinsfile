@@ -59,11 +59,15 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Starting Deploy Stage...'
-                bat 'docker compose down'
+
+                bat 'docker rm -f securecareops-api || exit /b 0'
+                bat 'docker rm -f securecareops-prometheus || exit /b 0'
+                bat 'docker compose down --remove-orphans || exit /b 0'
                 bat 'docker compose up -d --build'
+
                 echo 'Application deployed to local Docker staging environment.'
             }
-        }
+}
 
         stage('Release') {
             steps {
